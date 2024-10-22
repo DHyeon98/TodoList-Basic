@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import Form from "./components/Form";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface FormDataType {
+  name: string;
+  text: string;
 }
 
-export default App
+function App() {
+  const [formData, setFormData] = useState<FormDataType[]>([]);
+  const handleSubmit = (name: string, text: string) => {
+    setFormData((prev) => [
+      ...prev,
+      {
+        name,
+        text,
+      },
+    ]);
+  };
+  const handleDelete = () => {
+    console.log(Date.now());
+  };
+  return (
+    <main>
+      <h1>React만으로 TodoList 개발</h1>
+      <Form handleSubmit={handleSubmit} />
+      <ul>
+        {formData.map(({ name, text }, index) => {
+          return (
+            <li key={index}>
+              <div>{name}</div>
+              <div>{text}</div>
+              <ul>
+                <li>
+                  <button type="button">수정</button>
+                  <button type="button" onClick={handleDelete}>
+                    삭제
+                  </button>
+                </li>
+              </ul>
+            </li>
+          );
+        })}
+      </ul>
+    </main>
+  );
+}
+
+export default App;
