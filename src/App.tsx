@@ -21,8 +21,26 @@ function App() {
       },
     ]);
   };
+
   const handleDelete = (id: number) => {
     setFormData((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const handleUpdate = (id: number) => {
+    const newName = prompt("변경할 이름");
+    const newText = prompt("변경할 내용");
+    setFormData((prev) =>
+      prev.map((item) => {
+        if (item.id === id) {
+          return {
+            id: item.id,
+            name: newName || item.name,
+            text: newText || item.text,
+          };
+        }
+        return item;
+      })
+    );
   };
   return (
     <main>
@@ -36,7 +54,9 @@ function App() {
               <div>{text}</div>
               <ul>
                 <li>
-                  <button type="button">수정</button>
+                  <button type="button" onClick={() => handleUpdate(id)}>
+                    수정
+                  </button>
                   <button type="button" onClick={() => handleDelete(id)}>
                     삭제
                   </button>
